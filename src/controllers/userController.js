@@ -7,9 +7,9 @@ const getUsers = async (req, res) => {
 }
 
 const createUser = async (req, res) => {
-  const { userName, password, email, phote, connection } = req.body
+  const { userName, password, email, photo, connection } = req.body
   try {
-    const newUser = await User.create({ userName, password, email, phote, connection })
+    const newUser = await User.create({ userName, password, email, photo, connection })
     console.log(newUser)
 
     res.json(newUser)
@@ -18,10 +18,10 @@ const createUser = async (req, res) => {
   }
 }
 const updateUser = async (req, res) => {
-  const { _id, userName, password, email, phote, connection } = req.body
-  console.log(_id, userName, password, email, phote, connection)
+  const { _id, userName, password, email, photo, connection } = req.body
+  console.log(_id, userName, password, email, photo, connection)
   try {
-    await User.findByIdAndUpdate(_id, { userName, password, email, phote, connection })
+    await User.findByIdAndUpdate(_id, { userName, password, email, photo, connection })
     res.json({ message: 'Personal Info updated' })
   } catch (error) {
     console.error(error)
