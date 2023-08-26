@@ -1,4 +1,8 @@
+
+
 const User = require('../models/User')
+
+
 
 const getUsers = async (req, res) => {
   const users = await User.find()
@@ -34,8 +38,8 @@ const getUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     } else {
+      
       return res.json({ message: 'Usuario encontrado', user });
-
     }
   } catch (error) {
     console.error(error);
