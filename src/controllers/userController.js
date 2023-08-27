@@ -1,4 +1,5 @@
-
+const jwt = require('jsonwebtoken');
+const secretKey = 'tu_clave_secreta'; // Cambia esto a una clave secreta segura
 
 const User = require('../models/User')
 
@@ -38,8 +39,9 @@ const getUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     } else {
-      
-      return res.json({ message: 'Usuario encontrado', user });
+      const token = jwt.sign({ user }, secretKey, { expiresIn: '1h' }); // Cambia el tiempo de expiración según tus necesidades
+
+      return res.json({ message: 'Inicio de sesión exitoso', token, user });
     }
   } catch (error) {
     console.error(error);
@@ -47,4 +49,20 @@ const getUser = async (req, res) => {
   }
 };
 
-module.exports = { getUsers, createUser, updateUser, getUser }
+const getLogin = async (req, res) => {
+  const { token } = req.body;
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, secretKey);
+      return res.json(decoded);
+    } catch (error) {
+      // Maneja errores de verificación aquí, como tokens inválidos o expirados
+      throw new Error('Error al decodificar el token: ' + error.message);
+    }
+  }else{
+    return  res.json('No token');
+  }
+
+
+};
+module.exports = { getUsers, createUser, updateUser, getUser, getLogin }
